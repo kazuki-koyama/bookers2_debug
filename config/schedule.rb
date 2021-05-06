@@ -5,9 +5,11 @@
 
 # Example:
 #
-env :PATH, ENV['PATH']
-set :output, "log/cron.log"
-set :environment, :development
+
+# env :PATH, ENV['PATH']
+# set :output, "log/cron.log"
+# set :environment, :development
+
 #
 # every 2.hours do
 #   command "/usr/bin/some_great_command"
@@ -15,10 +17,21 @@ set :environment, :development
 #   rake "some:great:rake:task"
 # end
 #
-# every 1.minutes do
-every 1.days, at: '9:00 am' do
 
-  runner "DailyMailer.daily_notification"
-end
+# every 1.days, at: '9:00 am' do
+# every 1.minutes do
+#   runner "DailyMailer.daily_notification"
+# end
 
 # Learn more: http://github.com/javan/whenever
+
+require File.expand_path(File.dirname(__FILE__) + "/environment")
+rails_env = Rails.env.to_sym
+set :environment, rails_env
+set :output, 'log/cron.log'
+every 1.minute do
+  runner "Batch::SendMail.daily_notification"
+rescue => e
+  Rails.logger.error("aborted rails runner")
+  raise e
+end
