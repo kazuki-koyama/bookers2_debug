@@ -11,6 +11,7 @@ class Book < ApplicationRecord
 	end
 
   def self.search_for(content, method)
+    return none if content.blank?
     if method == 'perfect'
       Book.where(title: content)
     elsif method == 'forward'
