@@ -35,6 +35,7 @@ class User < ApplicationRecord
   end
 
   def self.search_for(content, method)
+    return none if content.blank?
     if method == 'perfect'
       User.where(name: content)
     elsif method == 'forward'
