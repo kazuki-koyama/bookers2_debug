@@ -72,3 +72,4 @@ gem 'jp_prefecture'
 gem 'font-awesome-sass', '~> 5.13'
 gem 'dotenv-rails'
 gem 'whenever', require: false
+gem 'kaminari','~> 1.2.1'
